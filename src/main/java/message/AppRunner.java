@@ -40,10 +40,10 @@ public static void main(String [] args) {
                 gogol.setUsername("gogol");
                 buban.setUsername("buban");
                 guddu.setUsername("guddu");
-
+                MessageController messageController = new MessageController();
                 messageUserGraphRepo.save(gogol);
-                messageUserGraphRepo.save(buban);
-                messageUserGraphRepo.save(guddu);
+//                messageUserGraphRepo.save(buban);
+//                messageUserGraphRepo.save(guddu);
 
 
         };
