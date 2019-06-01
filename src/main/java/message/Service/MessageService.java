@@ -51,11 +51,38 @@ public class MessageService {
         String id = "MSG_CLUSTER_"+messageUsers.get(0).getEmailID()+"_"+messageUsers.get(1).getEmailID();
         StampedMessage message = new StampedMessage("shramana","arkajit:Hello",timestamp());
         StampedMessage message2 = new StampedMessage("arkajit","arkajit:Hello",timestamp());
-        MeesageModel model = new MeesageModel(id, Arrays.asList(message,message2),messageUsers);
+        MeesageModel model = new MeesageModel(id, null,messageUsers);
         return messageClusterGraphRepo.save(model);
     }
     private String timestamp(){
        return new Timestamp(new Date().getTime()).toString();
     }
 
+    public String sendMessage(String sender, String receiver, String message) {
+        StampedMessage newMessage = new StampedMessage(sender,message,timestamp());
+        Optional<MeesageModel> model1 = messageClusterGraphRepo.findById("MSG_CLUSTER_"+sender+"_"+receiver);
+        Optional<MeesageModel> model2 = messageClusterGraphRepo.findById("MSG_CLUSTER_"+receiver+"_"+sender);
+        if(!model1.isPresent() && !model2.isPresent()){
+            return "Cant send message! " + receiver + " is not a mutual friend";
+        }
+        if(model1.isPresent()){
+            if( model1.get().getMessages()==null){
+               model1.get().setMessages(Collections.singletonList(newMessage));
+            }
+            else {
+                model1.get().getMessages().add(newMessage);
+            }
+            messageClusterGraphRepo.save(model1.get());
+        }
+        else{
+            if( model2.get().getMessages()==null){
+                model2.get().setMessages(Collections.singletonList(newMessage));
+            }
+            else {
+                model2.get().getMessages().add(newMessage);
+            }
+            messageClusterGraphRepo.save(model2.get());
+        }
+        return "Message: " + message + "send successfully";
+    }
 }

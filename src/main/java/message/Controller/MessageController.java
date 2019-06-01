@@ -29,6 +29,12 @@ public class MessageController {
     public String addFriend(@RequestParam(value = "sender") String sender,@RequestParam(value = "receiver") String receiver ) {
         return messageService.updateFriends(sender,receiver);
     }
+    @GetMapping("/sendMessage")
+    public String sendMessage(@RequestParam(value = "sender") String sender,@RequestParam(value = "receiver")
+            String receiver, @RequestParam(value = "message") String message){
+
+        return messageService.sendMessage(sender,receiver,message);
+    }
 
 
 }
