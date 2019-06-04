@@ -43,7 +43,7 @@ public class ComponentService {
                     return new MessageUser(model.getErrors());
                 }
                 LOGGER.info("User validated for update!! Proceeding to Update User and Friends");
-                userSaveService.updateExistingUser(model,fetchedModel);
+                model = userSaveService.updateExistingUser(model,fetchedModel);
                 break;
             }
 

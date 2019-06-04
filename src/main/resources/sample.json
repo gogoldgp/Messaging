@@ -3,14 +3,7 @@
   "username": "",
   "password": "",
   "friends": [
-    {
-      "emailID" : "",
-      "password" : ""
-    },
-    {
-      "emailID" : "",
-      "password" : ""
-    }
+    "emailId1","emailId2"
   ],
   "meesageModelList": [
 

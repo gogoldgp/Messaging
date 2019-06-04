@@ -17,6 +17,8 @@ public interface MessageUserGraphRepo extends Neo4jRepository<MessageUser,Long> 
     void createMutualFriendAndUpdateUsername(@Param("sender_emailID") String sender_emailID, @Param("receiver_emailID") String receiver_emailID,@Param("username") String username);
     @Query("match (s:MessageUser) where s.emailID = {sender_emailID} set s.username = {username}")
     void setNewUsername(@Param("sender_emailID") String emailID, @Param("username") String username);
-    @Query("match (s:MessageUser) where s.emailID = {sender_emailID} set s.friends ={newFriends}")
-    void setNewFriends(@Param("sender_emailID") String emailID,@Param("newFriends") List<String> newFriends);
+    @Query("match (s:MessageUser) where s.emailID = {sender_emailID} set s.friends ={newFriends} set s.updatedTimestamp={updatedTimeStamp}")
+    void setNewFriends(@Param("sender_emailID") String emailID, @Param("newFriends") List<String> newFriends, @Param("updatedTimeStamp") String updatedTimeStamp);
+    @Query("match (s:MessageUser) where s.emailID = {sender_emailID} set s.friends ={newFriend} + s.friends set s.updatedTimestamp={updatedTimeStamp}")
+    void addNewFriend(@Param("sender_emailID") String sender, @Param("newFriend")List<String> newFriend, @Param("updatedTimeStamp")String updatedTimeStamp);
 }

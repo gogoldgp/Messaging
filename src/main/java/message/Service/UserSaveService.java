@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
 @Component
@@ -18,6 +20,7 @@ public class UserSaveService {
 
     public MessageUser createNewUser(MessageUser model) {
         populateUserModel(model);
+        model.setFriends(new ArrayList<>());
         messageUserGraphRepo.save(model);
         return model;
     }
@@ -42,16 +45,18 @@ public class UserSaveService {
         }else{
             fetchedModel.getFriends().addAll(user.getFriends());
         }
-        messageUserGraphRepo.setNewFriends(user.getEmailID(),fetchedModel.getFriends());
-
+        messageUserGraphRepo.setNewFriends(user.getEmailID(),fetchedModel.getFriends(),user.getUpdatedTimeStamp());
         if(!CollectionUtils.isEmpty(user.getFriends())) {
-            user.getFriends().forEach(newFriend -> messageUserGraphRepo.createMutualFriendAndUpdateUsername(user.getEmailID(), newFriend,username));
+            user.getFriends().forEach(newFriend ->{
+                messageUserGraphRepo.createMutualFriendAndUpdateUsername(user.getEmailID(), newFriend,username);
+                messageUserGraphRepo.addNewFriend(newFriend, Collections.singletonList(user.getEmailID()),user.getUpdatedTimeStamp());
+            });
             user.setFriends(fetchedModel.getFriends());
+
         }
         else{
             messageUserGraphRepo.setNewUsername(user.getEmailID(),username);
         }
-
         return user;
     }
 

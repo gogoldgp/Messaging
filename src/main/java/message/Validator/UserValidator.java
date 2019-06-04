@@ -26,29 +26,32 @@ public class UserValidator {
         fetchedModel.setErrors(errors);
         MessageUser userFetched = messageUserGraphRepo.findByEmailID(model.getEmailID());
         copyToFetchedObj(userFetched,fetchedModel);
-        if(fetchedModel == null){
+        if(messageUserGraphRepo.findByEmailID(model.getEmailID()) == null){
             errors.add("User doesn't exist for update!");
         }
         else if(StringUtils.equals(fetchedModel.getUsername(),model.getUsername())){
             errors.add("Same Username: cannot update!");
         }
-        else if(!CollectionUtils.isEmpty(fetchedModel.getFriends())){
-            List<String> fetchedFriendEmailIDs = new ArrayList<>(fetchedModel.getFriends());
-            if (!CollectionUtils.isEmpty(model.getFriends())) {
-                model.getFriends().forEach(friendEmail -> {
-                    if (friendEmail == null) {
-                        errors.add("No emailID provided for friend to be added!");
-                    } else if (messageUserGraphRepo.findByEmailID(friendEmail) == null) {
-                        errors.add("User with email ID: " + friendEmail + " does not exist!");
-                    } else if (!CollectionUtils.isEmpty(fetchedFriendEmailIDs) && fetchedFriendEmailIDs.contains(friendEmail)) {
-                       errors.add("User with email id:" + friendEmail + " is already a friend");
-                    }
-                });
+        else if(!CollectionUtils.isEmpty(model.getFriends())){
+            List<String> fetchedFriendEmailIDs = new ArrayList<>();
+            if(!CollectionUtils.isEmpty(fetchedModel.getFriends())) {
+                fetchedFriendEmailIDs = new ArrayList<>(fetchedModel.getFriends());
             }
+            List<String> finalFetchedFriendEmailIDs = fetchedFriendEmailIDs;
+            model.getFriends().forEach(friendEmail -> {
+                if (friendEmail == null) {
+                    errors.add("No emailID provided for friend to be added!");
+                } else if (messageUserGraphRepo.findByEmailID(friendEmail) == null) {
+                    errors.add("User with email ID: " + friendEmail + " does not exist!");
+                } else if (!CollectionUtils.isEmpty(finalFetchedFriendEmailIDs) && finalFetchedFriendEmailIDs.contains(friendEmail)) {
+                    errors.add("User with email id:" + friendEmail + " is already a friend");
+                }
+            });
         }
+
         model.setErrors(errors);
         return null;
-    }
+}
 
     public static void copyToFetchedObj(MessageUser userFetched, MessageUser fetchedModel) {
         fetchedModel.setUsername(userFetched.getUsername());
