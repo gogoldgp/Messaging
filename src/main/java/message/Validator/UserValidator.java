@@ -24,7 +24,6 @@ public class UserValidator {
     public static MessageUser validateForUserUpdate(MessageUser model, MessageUserGraphRepo messageUserGraphRepo, MessageUser fetchedModel) {
         List<String> errors = new ArrayList<>();
         fetchedModel.setErrors(errors);
-        List<String> fetchedFriendEmailIDs = new ArrayList<>();
         MessageUser userFetched = messageUserGraphRepo.findByEmailID(model.getEmailID());
         copyToFetchedObj(userFetched,fetchedModel);
         if(fetchedModel == null){
@@ -34,15 +33,15 @@ public class UserValidator {
             errors.add("Same Username: cannot update!");
         }
         else if(!CollectionUtils.isEmpty(fetchedModel.getFriends())){
-            fetchedModel.getFriends().forEach(fetchedFriend -> fetchedFriendEmailIDs.add(fetchedFriend.getEmailID()));
+            List<String> fetchedFriendEmailIDs = new ArrayList<>(fetchedModel.getFriends());
             if (!CollectionUtils.isEmpty(model.getFriends())) {
-                model.getFriends().forEach(friend -> {
-                    if (friend.getEmailID() == null) {
+                model.getFriends().forEach(friendEmail -> {
+                    if (friendEmail == null) {
                         errors.add("No emailID provided for friend to be added!");
-                    } else if (messageUserGraphRepo.findByEmailID(friend.getEmailID()) == null) {
-                        errors.add("User with email ID: " + friend.getEmailID() + " does not exist!");
-                    } else if (!CollectionUtils.isEmpty(fetchedFriendEmailIDs) && fetchedFriendEmailIDs.contains(friend.getEmailID())) {
-                       errors.add("User with email id:" + friend.getEmailID() + " is already a friend");
+                    } else if (messageUserGraphRepo.findByEmailID(friendEmail) == null) {
+                        errors.add("User with email ID: " + friendEmail + " does not exist!");
+                    } else if (!CollectionUtils.isEmpty(fetchedFriendEmailIDs) && fetchedFriendEmailIDs.contains(friendEmail)) {
+                       errors.add("User with email id:" + friendEmail + " is already a friend");
                     }
                 });
             }

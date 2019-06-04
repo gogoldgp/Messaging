@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import java.sql.Timestamp;
+import java.util.Collections;
 
 @Component
 public class UserSaveService {
@@ -36,13 +37,16 @@ public class UserSaveService {
     public MessageUser updateExistingUser(MessageUser model, MessageUser fetchedModel) {
         MessageUser user = populateModelForUpdate(model, fetchedModel);
         String username = user.getUsername();
+        if(fetchedModel.getFriends() == null){
+            fetchedModel.setFriends(user.getFriends());
+        }else{
+            fetchedModel.getFriends().addAll(user.getFriends());
+        }
+        messageUserGraphRepo.setNewFriends(user.getEmailID(),fetchedModel.getFriends());
+
         if(!CollectionUtils.isEmpty(user.getFriends())) {
-            user.getFriends().forEach(newFriend -> {
-                messageUserGraphRepo.createMutualFriendAndUpdateUsername(user.getEmailID(), newFriend.getEmailID(),username);
-            });
-            if(!CollectionUtils.isEmpty(fetchedModel.getFriends())){
-                user.getFriends().addAll(fetchedModel.getFriends());
-            }
+            user.getFriends().forEach(newFriend -> messageUserGraphRepo.createMutualFriendAndUpdateUsername(user.getEmailID(), newFriend,username));
+            user.setFriends(fetchedModel.getFriends());
         }
         else{
             messageUserGraphRepo.setNewUsername(user.getEmailID(),username);

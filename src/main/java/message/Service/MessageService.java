@@ -28,25 +28,25 @@ public class MessageService {
         return messageUser.toString();
     }
 
-    public String updateFriends(String sender, String receiver) {
-        StringBuilder stringBuilder = new StringBuilder();
-        MessageUser senderUser = messageUserGraphRepo.findByEmailID(sender);
-        MessageUser receiverUser = messageUserGraphRepo.findByEmailID(receiver);
-        if(senderUser!=null && receiverUser!=null){
-            senderUser.setFriends(Arrays.asList(receiverUser));
-            receiverUser.setFriends(Arrays.asList(senderUser));
-            List<MessageUser> listofFriends = new ArrayList<>();
-            listofFriends.add(senderUser);
-            listofFriends.add(receiverUser);
-            stringBuilder.append(messageUserGraphRepo.saveAll(listofFriends));
-            stringBuilder.append("\n");
-            stringBuilder.append(populateMessageMOdelAndSave(listofFriends));
-        }
-        else{
-            return "Invalid email IDs";
-        }
-        return "update friends and link generated!." + stringBuilder;
-    }
+//    public String updateFriends(String sender, String receiver) {
+//        StringBuilder stringBuilder = new StringBuilder();
+//        MessageUser senderUser = messageUserGraphRepo.findByEmailID(sender);
+//        MessageUser receiverUser = messageUserGraphRepo.findByEmailID(receiver);
+//        if(senderUser!=null && receiverUser!=null){
+//            senderUser.setFriends(Arrays.asList(receiverUser));
+//            receiverUser.setFriends(Arrays.asList(senderUser));
+//            List<MessageUser> listofFriends = new ArrayList<>();
+//            listofFriends.add(senderUser);
+//            listofFriends.add(receiverUser);
+//            stringBuilder.append(messageUserGraphRepo.saveAll(listofFriends));
+//            stringBuilder.append("\n");
+//            stringBuilder.append(populateMessageMOdelAndSave(listofFriends));
+//        }
+//        else{
+//            return "Invalid email IDs";
+//        }
+//        return "update friends and link generated!." + stringBuilder;
+//    }
 
     private MeesageModel populateMessageMOdelAndSave(List<MessageUser> messageUsers) {
         String sender = messageUsers.get(0).getEmailID();

@@ -44,10 +44,10 @@ public class MessageController {
         messageUser.setUsername(username);
         return messageService.saveUserToDB(messageUser);
     }
-    @GetMapping("/addFriend")
-    public String addFriend(@RequestParam(value = "sender") String sender,@RequestParam(value = "receiver") String receiver ) {
-        return messageService.updateFriends(sender,receiver);
-    }
+//    @GetMapping("/addFriend")
+//    public String addFriend(@RequestParam(value = "sender") String sender,@RequestParam(value = "receiver") String receiver ) {
+//        return messageService.updateFriends(sender,receiver);
+//    }
     @GetMapping("/sendMessage")
     public String sendMessage(@RequestParam(value = "sender") String sender,@RequestParam(value = "receiver")
             String receiver, @RequestParam(value = "message") String message){

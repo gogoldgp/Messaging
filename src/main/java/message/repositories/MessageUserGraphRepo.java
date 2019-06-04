@@ -6,6 +6,8 @@ import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface MessageUserGraphRepo extends Neo4jRepository<MessageUser,Long> {
 
@@ -15,4 +17,6 @@ public interface MessageUserGraphRepo extends Neo4jRepository<MessageUser,Long> 
     void createMutualFriendAndUpdateUsername(@Param("sender_emailID") String sender_emailID, @Param("receiver_emailID") String receiver_emailID,@Param("username") String username);
     @Query("match (s:MessageUser) where s.emailID = {sender_emailID} set s.username = {username}")
     void setNewUsername(@Param("sender_emailID") String emailID, @Param("username") String username);
+    @Query("match (s:MessageUser) where s.emailID = {sender_emailID} set s.friends ={newFriends}")
+    void setNewFriends(@Param("sender_emailID") String emailID,@Param("newFriends") List<String> newFriends);
 }

@@ -13,9 +13,7 @@ public class MessageUser extends BaseModel  {
     private List<MeesageModel> meesageModelList;
     private String username;
     private String password;
-
-//    @Relationship(type = "MUTUAL_OF", direction = Relationship.UNDIRECTED)
-    private List<MessageUser> friends;
+    private List<String> friends;
 
     @Id
     @GeneratedValue
@@ -28,7 +26,7 @@ public class MessageUser extends BaseModel  {
         super(errors);
     }
 
-    public MessageUser(String emailID, List<MeesageModel> meesageModelList, String username, String password, List<MessageUser> friends, Long messageNodeIdentifier,String createdTimestamp) {
+    public MessageUser(String emailID, List<MeesageModel> meesageModelList, String username, String password, List<String> friends, Long messageNodeIdentifier,String createdTimestamp) {
         super(createdTimestamp);
         this.emailID = emailID;
         this.meesageModelList = meesageModelList;
@@ -79,11 +77,11 @@ public class MessageUser extends BaseModel  {
         this.password = password;
     }
 
-    public List<MessageUser> getFriends() {
+    public List<String> getFriends() {
         return friends;
     }
 
-    public void setFriends(List<MessageUser> friends) {
+    public void setFriends(List<String> friends) {
         this.friends = friends;
     }
 
