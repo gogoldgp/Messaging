@@ -32,6 +32,12 @@ public class UserValidator {
         else if(StringUtils.equals(fetchedModel.getUsername(),model.getUsername())){
             errors.add("Same Username: cannot update!");
         }
+        else if((model.getFriends()==null || CollectionUtils.isEmpty(model.getFriends())) && StringUtils.isEmpty(model.getUsername())){
+            errors.add("No username or friends provided. Nothing to update!");
+        }
+
+
+
         else if(!CollectionUtils.isEmpty(model.getFriends())){
             List<String> fetchedFriendEmailIDs = new ArrayList<>();
             if(!CollectionUtils.isEmpty(fetchedModel.getFriends())) {
