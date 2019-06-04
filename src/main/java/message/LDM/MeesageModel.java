@@ -15,17 +15,18 @@ public class MeesageModel  {
     @Relationship(type = "CLUSTER_OF",direction = Relationship.UNDIRECTED)
     List<MessageUser> messageUsers;
 
-    public MeesageModel(String messageClusterIdentifier) {
-        this.messageClusterIdentifier = messageClusterIdentifier;
-    }
-
-    public MeesageModel() {
-    }
-
-    public MeesageModel(String messageClusterIdentifier, List<StampedMessage> messages, List<MessageUser> messageUsers) {
+    public MeesageModel(String messageClusterIdentifier,List<StampedMessage> messages, List<MessageUser> messageUsers) {
         this.messageClusterIdentifier = messageClusterIdentifier;
         this.messages = messages;
         this.messageUsers = messageUsers;
+    }
+
+    public MeesageModel(List<StampedMessage> messages, List<MessageUser> messageUsers) {
+        this.messages = messages;
+        this.messageUsers = messageUsers;
+    }
+
+    public MeesageModel() {
     }
 
     public String getMessageClusterIdentifier() {

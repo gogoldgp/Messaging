@@ -1,0 +1,47 @@
+{
+ "emailID":"" ,
+  "username": "",
+  "password": "",
+  "friends": [
+    {
+      "emailID" : "",
+      "password" : ""
+    },
+    {
+      "emailID" : "",
+      "password" : ""
+    }
+  ],
+  "meesageModelList": [
+
+    {
+      "messageUsers": [
+        {
+          "emailID":"receiver"
+        }
+      ],
+      "messages": [
+        {
+          "senderId": "",
+          "message": [
+            "Ki korchish","Hi!"
+          ]
+        },
+        {
+          "senderId": "",
+          "message": [
+            "Arekta Message"
+          ]
+        }
+      ]
+    },
+    {
+
+    }
+  ],
+  "createdTimeStamp": "",
+  "updatedTimeStamp": "",
+  "actionType": ""
+
+
+}

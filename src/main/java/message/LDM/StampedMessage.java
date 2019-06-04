@@ -4,40 +4,27 @@ import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.springframework.stereotype.Indexed;
 
+import java.util.List;
+
 @NodeEntity
 public class StampedMessage {
 
-    private String senderId;
-    private String message;
     @Id
-    private String timestamp;
+    private String senderId;
+    private List<String> message;
+    private List<String> timestamp;
 
     public StampedMessage() {
     }
 
-    public StampedMessage(String timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public StampedMessage(String senderId, String message, String timestamp) {
-        this.message = message;
-        this.timestamp = timestamp;
+    public StampedMessage(String senderId, List<String> message) {
         this.senderId = senderId;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
         this.message = message;
     }
 
-    public String getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(String timestamp) {
+    public StampedMessage(String senderId, List<String> message, List<String> timestamp) {
+        this.senderId = senderId;
+        this.message = message;
         this.timestamp = timestamp;
     }
 
@@ -49,12 +36,28 @@ public class StampedMessage {
         this.senderId = senderId;
     }
 
+    public List<String> getMessage() {
+        return message;
+    }
+
+    public void setMessage(List<String> message) {
+        this.message = message;
+    }
+
+    public List<String> getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(List<String> timestamp) {
+        this.timestamp = timestamp;
+    }
+
     @Override
     public String toString() {
         return "StampedMessage{" +
                 "senderId='" + senderId + '\'' +
-                ", message='" + message + '\'' +
-                ", timestamp='" + timestamp + '\'' +
+                ", message=" + message +
+                ", timestamp=" + timestamp +
                 '}';
     }
 }

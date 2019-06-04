@@ -8,44 +8,43 @@ import org.neo4j.ogm.annotation.Relationship;
 import java.util.List;
 
 @NodeEntity
-public class MessageUser {
+public class MessageUser extends BaseModel  {
     private String emailID;
-    private List<String> incomingMessageQueue;
-    private List<String> outgoingMessageQueue;
+    private List<MeesageModel> meesageModelList;
     private String username;
     private String password;
 
-    @Relationship(type = "MUTUAL_OF",direction = Relationship.UNDIRECTED)
+//    @Relationship(type = "MUTUAL_OF", direction = Relationship.UNDIRECTED)
     private List<MessageUser> friends;
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private Long messageNodeIdentifier;
-    @Override
-    public String toString() {
-        return "MessageUser{" +
-                "emailID='" + emailID + '\'' +
-                ", incomingMessageQueue=" + incomingMessageQueue +
-                ", outgoingMessageQueue=" + outgoingMessageQueue +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", messageNodeIdentifier='" + messageNodeIdentifier + '\'' +
-                '}';
+
+    public MessageUser() {
     }
 
-    public Long getMessageNodeIdentifier() {
-        return messageNodeIdentifier;
+    public MessageUser(List<String> errors) {
+        super(errors);
     }
 
-    public void setMessageNodeIdentifier(Long messageNodeIdentifier) {
+    public MessageUser(String emailID, List<MeesageModel> meesageModelList, String username, String password, List<MessageUser> friends, Long messageNodeIdentifier,String createdTimestamp) {
+        super(createdTimestamp);
+        this.emailID = emailID;
+        this.meesageModelList = meesageModelList;
+        this.username = username;
+        this.password = password;
+        this.friends = friends;
         this.messageNodeIdentifier = messageNodeIdentifier;
     }
 
-    public List<MessageUser> getFriends() {
-        return friends;
+    public MessageUser(String emailID) {
+        this.emailID = emailID;
     }
 
-    public void setFriends(List<MessageUser> friends) {
-        this.friends = friends;
+    public MessageUser(String emailID, String password) {
+        this.emailID = emailID;
+        this.password = password;
     }
 
     public String getEmailID() {
@@ -56,20 +55,12 @@ public class MessageUser {
         this.emailID = emailID;
     }
 
-    public List<String> getIncomingMessageQueue() {
-        return incomingMessageQueue;
+    public List<MeesageModel> getMeesageModelList() {
+        return meesageModelList;
     }
 
-    public void setIncomingMessageQueue(List<String> incomingMessageQueue) {
-        this.incomingMessageQueue = incomingMessageQueue;
-    }
-
-    public List<String> getOutgoingMessageQueue() {
-        return outgoingMessageQueue;
-    }
-
-    public void setOutgoingMessageQueue(List<String> outgoingMessageQueue) {
-        this.outgoingMessageQueue = outgoingMessageQueue;
+    public void setMeesageModelList(List<MeesageModel> meesageModelList) {
+        this.meesageModelList = meesageModelList;
     }
 
     public String getUsername() {
@@ -88,4 +79,31 @@ public class MessageUser {
         this.password = password;
     }
 
+    public List<MessageUser> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(List<MessageUser> friends) {
+        this.friends = friends;
+    }
+
+    public Long getMessageNodeIdentifier() {
+        return messageNodeIdentifier;
+    }
+
+    public void setMessageNodeIdentifier(Long messageNodeIdentifier) {
+        this.messageNodeIdentifier = messageNodeIdentifier;
+    }
+
+    @Override
+    public String toString() {
+        return "MessageUser{" +
+                "emailID='" + emailID + '\'' +
+                ", meesageModelList=" + meesageModelList +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", friends=" + friends +
+                ", messageNodeIdentifier=" + messageNodeIdentifier +
+                '}';
+    }
 }

@@ -7,6 +7,7 @@ import message.repositories.MessageClusterGraphRepo;
 import message.repositories.MessageUserGraphRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.thymeleaf.util.StringUtils;
 
 import java.sql.Timestamp;
 import java.util.*;
@@ -48,10 +49,12 @@ public class MessageService {
     }
 
     private MeesageModel populateMessageMOdelAndSave(List<MessageUser> messageUsers) {
-        String id = "MSG_CLUSTER_"+messageUsers.get(0).getEmailID()+"_"+messageUsers.get(1).getEmailID();
-        StampedMessage message = new StampedMessage("shramana","arkajit:Hello",timestamp());
-        StampedMessage message2 = new StampedMessage("arkajit","arkajit:Hello",timestamp());
-        MeesageModel model = new MeesageModel(id, null,messageUsers);
+        String sender = messageUsers.get(0).getEmailID();
+        String receiver = messageUsers.get(1).getEmailID();
+        String id = "MSG_CLUSTER_"+sender+"_"+receiver;
+        StampedMessage samplemessageSender = new StampedMessage(id+"_"+sender,new ArrayList<>(),new ArrayList<>());
+        StampedMessage samplemessageReceiver = new StampedMessage(id+"_"+receiver,new ArrayList<>(),new ArrayList<>());
+        MeesageModel model = new MeesageModel(id, Arrays.asList(samplemessageReceiver,samplemessageSender),messageUsers);
         return messageClusterGraphRepo.save(model);
     }
     private String timestamp(){
@@ -59,30 +62,25 @@ public class MessageService {
     }
 
     public String sendMessage(String sender, String receiver, String message) {
-        StampedMessage newMessage = new StampedMessage(sender,message,timestamp());
-        Optional<MeesageModel> model1 = messageClusterGraphRepo.findById("MSG_CLUSTER_"+sender+"_"+receiver);
-        Optional<MeesageModel> model2 = messageClusterGraphRepo.findById("MSG_CLUSTER_"+receiver+"_"+sender);
-        if(!model1.isPresent() && !model2.isPresent()){
+        String id;
+        Optional<MeesageModel> model = messageClusterGraphRepo.findById("MSG_CLUSTER_"+sender+"_"+receiver);
+        if(model.isEmpty()){
+            model= messageClusterGraphRepo.findById("MSG_CLUSTER_"+receiver+"_"+sender);
+        }
+        if(model.isEmpty()){
             return "Cant send message! " + receiver + " is not a mutual friend";
         }
-        if(model1.isPresent()){
-            if( model1.get().getMessages()==null){
-               model1.get().setMessages(Collections.singletonList(newMessage));
+        id = model.get().getMessageClusterIdentifier();
+       List<StampedMessage> stampedMessages = model.get().getMessages();
+        stampedMessages.forEach(stampedMessage -> {
+            if(StringUtils.equals(stampedMessage.getSenderId(),id + "_" + sender)){
+                stampedMessage.getMessage().add(message);
+                stampedMessage.getTimestamp().add(timestamp());
             }
-            else {
-                model1.get().getMessages().add(newMessage);
-            }
-            messageClusterGraphRepo.save(model1.get());
-        }
-        else{
-            if( model2.get().getMessages()==null){
-                model2.get().setMessages(Collections.singletonList(newMessage));
-            }
-            else {
-                model2.get().getMessages().add(newMessage);
-            }
-            messageClusterGraphRepo.save(model2.get());
-        }
+        });
+        messageClusterGraphRepo.save(model.get());
         return "Message: " + message + "send successfully";
     }
+
+
 }

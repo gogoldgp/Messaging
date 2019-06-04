@@ -1,11 +1,23 @@
 package message.LDM;
 
+import org.neo4j.ogm.annotation.Transient;
+
+import java.util.List;
+
+
 public class BaseModel {
     private String createdTimeStamp;
     private String updatedTimeStamp;
+    @Transient
     private String actionType;
+    @Transient
+    private List<String> errors;
 
     public BaseModel() {
+    }
+
+    public BaseModel(String createdTimeStamp) {
+        this.createdTimeStamp = createdTimeStamp;
     }
 
     public String getCreatedTimeStamp() {
@@ -32,12 +44,25 @@ public class BaseModel {
         this.actionType = actionType;
     }
 
+    public BaseModel(List<String> errors) {
+        this.errors = errors;
+    }
+
+    public List<String> getErrors() {
+        return errors;
+    }
+
+    public void setErrors(List<String> errors) {
+        this.errors = errors;
+    }
+
     @Override
     public String toString() {
         return "BaseModel{" +
                 "createdTimeStamp='" + createdTimeStamp + '\'' +
                 ", updatedTimeStamp='" + updatedTimeStamp + '\'' +
                 ", actionType='" + actionType + '\'' +
+                ", errors=" + errors +
                 '}';
     }
 }
