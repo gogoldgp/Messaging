@@ -52,7 +52,8 @@ public class MessageController {
     public String sendMessage(@RequestParam(value = "sender") String sender,@RequestParam(value = "receiver")
             String receiver, @RequestParam(value = "message") String message){
 
-        return messageService.sendMessage(sender,receiver,message);
+//        return messageService.sendMessage(sender,receiver,message);
+        return null;
     }
 
 
