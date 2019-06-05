@@ -1,15 +1,12 @@
 package message.Service;
 
-import message.LDM.MeesageModel;
-import message.LDM.MessageUser;
-import message.LDM.StampedMessage;
-import message.repositories.MessageClusterGraphRepo;
-import message.repositories.MessageUserGraphRepo;
+import message.jpa.LDM.MeesageModel;
+import message.jpa.LDM.MessageUser;
+import message.jpa.repositories.MessageClusterGraphRepo;
+import message.jpa.repositories.MessageUserGraphRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.thymeleaf.util.StringUtils;
 
-import java.sql.Timestamp;
 import java.util.*;
 
 @Component

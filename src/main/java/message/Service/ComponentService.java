@@ -1,11 +1,10 @@
 package message.Service;
 
-import message.LDM.MessageUser;
-import message.Validator.UserValidator;
-import message.repositories.MessageUserGraphRepo;
-import org.apache.juli.logging.Log;
+import message.jpa.LDM.MessageUser;
+import message.jpa.repositories.MessageUserGraphRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
@@ -24,6 +23,7 @@ public class ComponentService {
     @Autowired
     MessageService messageService;
 
+    @Transactional(value = "neo4jTransactionManager", rollbackFor = Exception.class)
     public MessageUser save(MessageUser model) {
         String actionType = model.getActionType();
         switch(actionType){

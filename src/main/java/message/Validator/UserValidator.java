@@ -1,7 +1,7 @@
 package message.Validator;
 
-import message.LDM.MessageUser;
-import message.repositories.MessageUserGraphRepo;
+import message.jpa.LDM.MessageUser;
+import message.jpa.repositories.MessageUserGraphRepo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
 

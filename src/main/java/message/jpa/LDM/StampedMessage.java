@@ -1,8 +1,7 @@
-package message.LDM;
+package message.jpa.LDM;
 
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
-import org.springframework.stereotype.Indexed;
 
 import java.util.List;
 

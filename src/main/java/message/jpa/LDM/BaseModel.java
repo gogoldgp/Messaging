@@ -1,4 +1,4 @@
-package message.LDM;
+package message.jpa.LDM;
 
 import org.neo4j.ogm.annotation.Transient;
 

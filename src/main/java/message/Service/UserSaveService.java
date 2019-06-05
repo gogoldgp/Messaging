@@ -1,8 +1,8 @@
 package message.Service;
 
-import message.LDM.MessageUser;
+import message.jpa.LDM.MessageUser;
 import message.Validator.UserValidator;
-import message.repositories.MessageUserGraphRepo;
+import message.jpa.repositories.MessageUserGraphRepo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -10,7 +10,6 @@ import org.springframework.util.CollectionUtils;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 @Component

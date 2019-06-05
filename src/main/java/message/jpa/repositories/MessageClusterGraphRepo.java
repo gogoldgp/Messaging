@@ -1,7 +1,6 @@
-package message.repositories;
+package message.jpa.repositories;
 
-import message.LDM.MeesageModel;
-import org.springframework.data.neo4j.annotation.Query;
+import message.jpa.LDM.MeesageModel;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.stereotype.Repository;
 

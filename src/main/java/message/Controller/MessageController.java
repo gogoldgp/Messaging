@@ -1,9 +1,11 @@
 package message.Controller;
 
-import message.LDM.MessageUser;
+import message.Config.OgmNeoConfig;
+import message.jpa.LDM.MessageUser;
 import message.Service.ComponentService;
 import message.Service.MessageService;
 import message.Utils.JsonUtils;
+import org.neo4j.ogm.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,8 +19,9 @@ public class MessageController {
     MessageService messageService;
     @Autowired
     ComponentService componentService;
-    @PostMapping("/test")
+
     public MessageUser generateModel(@RequestBody String json){
+
         try {
             MessageUser model = JsonUtils.convertStringToObject(json,MessageUser.class);
            return model;
