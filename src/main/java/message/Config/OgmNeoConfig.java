@@ -32,7 +32,7 @@ public class OgmNeoConfig {
     public SessionFactory getSessionFactory(){
         return new SessionFactory(getConfig(),"message.jpa");
     }
-    @Bean(name = "neo4jTransactionManager")
+    @Bean(name = "transactionManager")
     public PlatformTransactionManager transactionManager(){
         return new Neo4jTransactionManager(getSessionFactory());
     }

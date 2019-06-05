@@ -23,7 +23,7 @@ public class ComponentService {
     @Autowired
     MessageService messageService;
 
-    @Transactional(value = "neo4jTransactionManager", rollbackFor = Exception.class)
+    @Transactional(value = "transactionManager", rollbackFor = Exception.class)
     public MessageUser save(MessageUser model) {
         String actionType = model.getActionType();
         switch(actionType){
