@@ -3,14 +3,13 @@ package message.LDM;
 import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
-import org.neo4j.ogm.annotation.Relationship;
 
 import java.util.List;
 
 @NodeEntity
 public class MessageUser extends BaseModel  {
     private String emailID;
-    private List<MeesageModel> meesageModelList;
+    private List<MessageModel> messageModelList;
     private String username;
     private String password;
     private List<String> friends;
@@ -26,10 +25,10 @@ public class MessageUser extends BaseModel  {
         super(errors);
     }
 
-    public MessageUser(String emailID, List<MeesageModel> meesageModelList, String username, String password, List<String> friends, Long messageNodeIdentifier,String createdTimestamp) {
+    public MessageUser(String emailID, List<MessageModel> messageModelList, String username, String password, List<String> friends, Long messageNodeIdentifier, String createdTimestamp) {
         super(createdTimestamp);
         this.emailID = emailID;
-        this.meesageModelList = meesageModelList;
+        this.messageModelList = messageModelList;
         this.username = username;
         this.password = password;
         this.friends = friends;
@@ -53,12 +52,12 @@ public class MessageUser extends BaseModel  {
         this.emailID = emailID;
     }
 
-    public List<MeesageModel> getMeesageModelList() {
-        return meesageModelList;
+    public List<MessageModel> getMessageModelList() {
+        return messageModelList;
     }
 
-    public void setMeesageModelList(List<MeesageModel> meesageModelList) {
-        this.meesageModelList = meesageModelList;
+    public void setMessageModelList(List<MessageModel> messageModelList) {
+        this.messageModelList = messageModelList;
     }
 
     public String getUsername() {
@@ -97,7 +96,7 @@ public class MessageUser extends BaseModel  {
     public String toString() {
         return "MessageUser{" +
                 "emailID='" + emailID + '\'' +
-                ", meesageModelList=" + meesageModelList +
+                ", messageModelList=" + messageModelList +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", friends=" + friends +

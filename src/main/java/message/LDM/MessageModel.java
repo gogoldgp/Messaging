@@ -7,7 +7,7 @@ import org.neo4j.ogm.annotation.Relationship;
 import java.util.List;
 import java.util.Map;
 @NodeEntity
-public class MeesageModel  {
+public class MessageModel {
     @Id
     String messageClusterIdentifier;
     @Relationship(type = "MESSAGE_FROM")
@@ -15,18 +15,18 @@ public class MeesageModel  {
     @Relationship(type = "CLUSTER_OF",direction = Relationship.UNDIRECTED)
     List<MessageUser> messageUsers;
 
-    public MeesageModel(String messageClusterIdentifier,List<StampedMessage> messages, List<MessageUser> messageUsers) {
+    public MessageModel(String messageClusterIdentifier, List<StampedMessage> messages, List<MessageUser> messageUsers) {
         this.messageClusterIdentifier = messageClusterIdentifier;
         this.messages = messages;
         this.messageUsers = messageUsers;
     }
 
-    public MeesageModel(List<StampedMessage> messages, List<MessageUser> messageUsers) {
+    public MessageModel(List<StampedMessage> messages, List<MessageUser> messageUsers) {
         this.messages = messages;
         this.messageUsers = messageUsers;
     }
 
-    public MeesageModel() {
+    public MessageModel() {
     }
 
     public String getMessageClusterIdentifier() {
@@ -55,7 +55,7 @@ public class MeesageModel  {
 
     @Override
     public String toString() {
-        return "MeesageModel{" +
+        return "MessageModel{" +
                 "messageClusterIdentifier='" + messageClusterIdentifier + '\'' +
                 ", messages=" + messages +
                 ", messageUsers=" + messageUsers +

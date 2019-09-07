@@ -14,7 +14,7 @@ public class UserValidator {
     public static MessageUser validateForUserCreate(MessageUser user, MessageUserGraphRepo messageUserGraphRepo){
         MessageUser model  = user;
         if(model.getEmailID()== null  || model.getPassword()==null){
-            model.setErrors(Collections.singletonList("Both emailID and password is mandatory"));
+            model.setErrors(Collections.singletonList("Both emailID and password ARE mandatory"));
         }
         else if(messageUserGraphRepo.findByEmailID(model.getEmailID())!=null){
             model.setErrors(Collections.singletonList("Duplicate Account"));
@@ -63,7 +63,7 @@ public class UserValidator {
         fetchedModel.setUsername(userFetched.getUsername());
         fetchedModel.setCreatedTimeStamp(userFetched.getCreatedTimeStamp());
         fetchedModel.setFriends(userFetched.getFriends());
-        fetchedModel.setMeesageModelList(userFetched.getMeesageModelList());
+        fetchedModel.setMessageModelList(userFetched.getMessageModelList());
         fetchedModel.setPassword(userFetched.getPassword());
         fetchedModel.setEmailID(userFetched.getEmailID());
         fetchedModel.setUpdatedTimeStamp(userFetched.getUpdatedTimeStamp());
