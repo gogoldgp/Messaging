@@ -3,6 +3,7 @@ package message.Config;
 import org.apache.commons.lang3.StringUtils;
 import org.neo4j.ogm.config.Configuration;
 import org.neo4j.ogm.session.SessionFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.neo4j.repository.config.EnableNeo4jRepositories;
 import org.springframework.data.neo4j.transaction.Neo4jTransactionManager;
@@ -13,17 +14,21 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @EnableNeo4jRepositories("message.jpa")
 public class OgmNeoConfig {
-    String graphenedbURL = System.getenv("GRAPHENEDB_BOLT_URL");
-    String graphenedbUser = System.getenv("GRAPHENEDB_BOLT_USER");
-    String graphenedbPass = System.getenv("GRAPHENEDB_BOLT_PASSWORD");
+    @Value("${spring.data.neo4j.uri:null}")
+    private String graphenedbURL;
+    @Value("${spring.data.neo4j.username:null}")
+    private String graphenedbUser;
+    @Value("${spring.data.neo4j.password:null}")
+    private String graphenedbPass;
 
     @Bean
     public Configuration getConfig(){
 
-        if(StringUtils.isEmpty(graphenedbURL)){
-            graphenedbURL = "bolt://localhost:7687";
-            graphenedbUser = "neo4j";
-            graphenedbPass = "neo4j";
+        if(StringUtils.isEmpty(graphenedbURL) && StringUtils.isEmpty(graphenedbUser)
+                && StringUtils.isEmpty(graphenedbPass)  ){
+            graphenedbURL = System.getenv("GRAPHENEDB_BOLT_URL");
+            graphenedbUser = System.getenv("GRAPHENEDB_BOLT_USER");
+            graphenedbPass = System.getenv("GRAPHENEDB_BOLT_PASSWORD");
         }
         Configuration configuration = new Configuration.Builder().uri(graphenedbURL).credentials(graphenedbUser,graphenedbPass).build();
         return configuration;
