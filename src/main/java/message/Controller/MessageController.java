@@ -1,11 +1,9 @@
 package message.Controller;
 
-import message.Config.OgmNeoConfig;
-import message.jpa.LDM.MessageUser;
 import message.Service.ComponentService;
 import message.Service.MessageService;
 import message.Utils.JsonUtils;
-import org.neo4j.ogm.session.Session;
+import message.jpa.LDM.MessageUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,20 +18,12 @@ public class MessageController {
     @Autowired
     ComponentService componentService;
 
-    public MessageUser generateModel(@RequestBody String json){
-
-        try {
-            MessageUser model = JsonUtils.convertStringToObject(json,MessageUser.class);
-           return model;
-        } catch (IOException e) {
-            System.out.println("Invalid JSON");
-        }
-        return null;
-    }
     @PostMapping("/saveUserModel")
-    public MessageUser saveUser(@RequestBody String json){
-        MessageUser model = generateModel(json);
-        if(model == null){
+    public MessageUser saveUser(@RequestBody String json) throws IOException {
+        MessageUser model ;
+        try {
+            model = JsonUtils.convertStringToObject(json, MessageUser.class);
+        } catch (IOException e) {
             return new MessageUser(Arrays.asList("Invalid JSON provided!"));
         }
         model = componentService.save(model);

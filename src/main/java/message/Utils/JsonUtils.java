@@ -1,5 +1,6 @@
 package message.Utils;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -22,4 +23,11 @@ public final class JsonUtils {
         }
         return model;
     }
+    public static <T> String convertObjectToString(final T t) throws JsonProcessingException {
+        ObjectMapper objectMapper = getObjectMapper();
+        String jsonString = null;
+        jsonString = objectMapper.writeValueAsString(t);
+        return jsonString;
+    }
+
 }

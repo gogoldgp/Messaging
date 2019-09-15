@@ -1,6 +1,6 @@
 package message.Service;
 
-import message.jpa.LDM.MeesageModel;
+import message.jpa.LDM.MessageModel;
 import message.jpa.LDM.MessageUser;
 import message.jpa.repositories.MessageClusterGraphRepo;
 import message.jpa.repositories.MessageUserGraphRepo;
@@ -45,13 +45,13 @@ public class MessageService {
 //        return "update friends and link generated!." + stringBuilder;
 //    }
 
-    private MeesageModel populateMessageMOdelAndSave(List<MessageUser> messageUsers) {
+    private MessageModel populateMessageMOdelAndSave(List<MessageUser> messageUsers) {
 //        String sender = messageUsers.get(0).getEmailID();
 //        String receiver = messageUsers.get(1).getEmailID();
 //        String id = "MSG_CLUSTER_"+sender+"_"+receiver;
 //        StampedMessage samplemessageSender = new StampedMessage(id+"_"+sender,new ArrayList<>(),new ArrayList<>());
 //        StampedMessage samplemessageReceiver = new StampedMessage(id+"_"+receiver,new ArrayList<>(),new ArrayList<>());
-//        MeesageModel model = new MeesageModel(id, Arrays.asList(samplemessageReceiver,samplemessageSender),messageUsers);
+//        MessageModel model = new MessageModel(id, Arrays.asList(samplemessageReceiver,samplemessageSender),messageUsers);
 //        return messageClusterGraphRepo.save(model);
 //    }
 //    private String timestamp(){
@@ -60,7 +60,7 @@ public class MessageService {
 //
 //    public String sendMessage(String sender, String receiver, String message) {
 //        String id;
-//        Optional<MeesageModel> model = messageClusterGraphRepo.findById("MSG_CLUSTER_"+sender+"_"+receiver);
+//        Optional<MessageModel> model = messageClusterGraphRepo.findById("MSG_CLUSTER_"+sender+"_"+receiver);
 //        if(model.isEmpty()){
 //            model= messageClusterGraphRepo.findById("MSG_CLUSTER_"+receiver+"_"+sender);
 //        }

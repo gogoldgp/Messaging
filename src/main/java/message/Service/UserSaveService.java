@@ -1,7 +1,9 @@
 package message.Service;
 
+import message.jpa.LDM.MessageModel;
 import message.jpa.LDM.MessageUser;
 import message.Validator.UserValidator;
+import message.jpa.repositories.MessageClusterGraphRepo;
 import message.jpa.repositories.MessageUserGraphRepo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,64 +11,36 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Collections;
 
 @Component
 public class UserSaveService {
     @Autowired
     MessageUserGraphRepo messageUserGraphRepo;
+    @Autowired
+    MessageClusterGraphRepo messageClusterGraphRepo;
 
     public MessageUser createNewUser(MessageUser model) {
-        populateUserModel(model);
-        model.setFriends(new ArrayList<>());
         messageUserGraphRepo.save(model);
         return model;
     }
 
-
-    private void populateUserModel(MessageUser model) {
-        if (model.getUsername() == null) {
-            model.setUsername(model.getEmailID());
-        }
-        model.setCreatedTimeStamp(timestamp());
+    public MessageUser updateExistingUser(MessageUser model) {
+       messageUserGraphRepo.modifyUsername(model.getUsername(),model.getEmailID(),model.getUpdatedTimeStamp());
+       if(!CollectionUtils.isEmpty(model.getFriends())){
+           for (MessageModel messageModel : model.getMessageModelList()) {
+               createRelationshipsToSenderAndReceiverNode(createNodesForMessageModelAndStampedMessages(messageModel),messageModel.getSenderId(),messageModel.getReceiverId());
+           }
+       }
+       return model;
     }
 
-    private String timestamp() {
-        return new Timestamp(new java.util.Date().getTime()).toString();
+    private void createRelationshipsToSenderAndReceiverNode(String nodesForMessageModelAndStampedMessages, String senderId, String receiverId) {
+        messageClusterGraphRepo.updateRelationships(nodesForMessageModelAndStampedMessages,senderId,receiverId);
     }
 
-    public MessageUser updateExistingUser(MessageUser model, MessageUser fetchedModel) {
-        MessageUser user = populateModelForUpdate(model, fetchedModel);
-        String username = user.getUsername();
-        if(fetchedModel.getFriends() == null){
-            fetchedModel.setFriends(user.getFriends());
-        }else{
-            fetchedModel.getFriends().addAll(user.getFriends());
-        }
-        messageUserGraphRepo.setNewFriends(user.getEmailID(),fetchedModel.getFriends(),user.getUpdatedTimeStamp());
-        if(!CollectionUtils.isEmpty(user.getFriends())) {
-            user.getFriends().forEach(newFriend ->{
-                messageUserGraphRepo.createMutualFriendAndUpdateUsername(user.getEmailID(), newFriend,username);
-                messageUserGraphRepo.addNewFriend(newFriend, Collections.singletonList(user.getEmailID()),user.getUpdatedTimeStamp());
-            });
-            user.setFriends(fetchedModel.getFriends());
-
-        }
-        else{
-            messageUserGraphRepo.setNewUsername(user.getEmailID(),username);
-        }
-        return user;
+    private String createNodesForMessageModelAndStampedMessages(MessageModel messageModel){
+        MessageModel model = messageClusterGraphRepo.save(messageModel);
+        return model.getMessageClusterIdentifier();
     }
 
-    private MessageUser populateModelForUpdate(MessageUser model, MessageUser fetchedModel) {
-        MessageUser user = new MessageUser();
-        UserValidator.copyToFetchedObj(fetchedModel,user);
-        user.setFriends(model.getFriends());
-        user.setUpdatedTimeStamp(timestamp());
-        if(StringUtils.isNotBlank(model.getUsername())) {
-            user.setUsername(model.getUsername());
-        }
-        return user;
-    }
 }

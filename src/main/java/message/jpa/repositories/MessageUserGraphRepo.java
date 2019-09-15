@@ -21,4 +21,6 @@ public interface MessageUserGraphRepo extends Neo4jRepository<MessageUser,Long> 
     void setNewFriends(@Param("sender_emailID") String emailID, @Param("newFriends") List<String> newFriends, @Param("updatedTimeStamp") String updatedTimeStamp);
     @Query("match (s:MessageUser) where s.emailID = {sender_emailID} set s.friends ={newFriend} + s.friends set s.updatedTimestamp={updatedTimeStamp}")
     void addNewFriend(@Param("sender_emailID") String sender, @Param("newFriend")List<String> newFriend, @Param("updatedTimeStamp")String updatedTimeStamp);
+    @Query("match (s:MessageUser) where s.emailID = {sender_emailID} set s.username = {username},s.updatedTimeStamp={updatedTimeStamp}")
+    void modifyUsername(@Param("username") String username, @Param("sender_emailID") String sender,@Param("updatedTimeStamp") String updatedTimeStamp);
 }
