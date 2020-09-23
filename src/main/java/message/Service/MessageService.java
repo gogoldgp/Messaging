@@ -7,7 +7,7 @@ import message.jpa.repositories.MessageUserGraphRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.List;
 
 @Component
 public class MessageService {

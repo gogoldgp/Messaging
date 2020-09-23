@@ -38,9 +38,6 @@ public class UserValidator {
         else if(messageUserGraphRepo.findByEmailID(processedUser.getEmailID())!=null){
            errors.add("Account with emailID " + processedUser.getEmailID() + " already exists");
         }
-        if(!CollectionUtils.isEmpty(processedUser.getFriends())){
-            errors.add("Cannot add friends while user is being created");
-        }
     }
 
     public void validateForUserUpdate(MessageCargo cargo) {

@@ -1,8 +1,11 @@
 package message.Constants;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class MessageConstants {
     public enum ActionType{
@@ -20,7 +23,10 @@ public class MessageConstants {
         static{
             Arrays.stream(ActionType.values()).forEach(e->actionMap.put(e.getAction(),e));
         }
-        public ActionType getActionType(String action){
+        public static ActionType getActionType(String action){
+            if(Objects.isNull(action)){
+                return null;
+            }
             return actionMap.get(action);
         }
     }

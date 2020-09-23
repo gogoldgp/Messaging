@@ -1,5 +1,6 @@
 package message.jpa.repositories;
 
+import message.jpa.LDM.MessageModel;
 import message.jpa.LDM.MessageUser;
 import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
@@ -23,4 +24,8 @@ public interface MessageUserGraphRepo extends Neo4jRepository<MessageUser,Long> 
     void addNewFriend(@Param("sender_emailID") String sender, @Param("newFriend")List<String> newFriend, @Param("updatedTimeStamp")String updatedTimeStamp);
     @Query("match (s:MessageUser) where s.emailID = {sender_emailID} set s.username = {username},s.updatedTimeStamp={updatedTimeStamp}")
     void modifyUsername(@Param("username") String username, @Param("sender_emailID") String sender,@Param("updatedTimeStamp") String updatedTimeStamp);
+    @Query("match (s:MessageModel) where s.senderId = {sender} and s.receiverId = {receiver} return s")
+    MessageModel getMessageModel(@Param("sender") String sender, @Param("receiver") String receiver);
+    @Query("match (s:MessageModel) where s.senderId = {sender} and s.receiverId = {receiver} set s.isFriend = {isFriend}return s")
+    void addFriendMessageModel(@Param("sender") String sender, @Param("receiver") String receiver, @Param("isFriend") boolean isFriend);
 }

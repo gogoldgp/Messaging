@@ -1,20 +1,21 @@
 package message.jpa.LDM;
 
-import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @NodeEntity
 public class MessageModel {
 
     @Id
-    String messageClusterIdentifier;
-    String isFriend;
-    String senderId;
-    String receiverId;
+    private String messageClusterIdentifier;
+    private String isFriend;
+    private String senderId;
+    private String receiverId;
     @Relationship(type = "MESSAGE_FROM")
     List<StampedMessage> messages;
 
@@ -60,6 +61,9 @@ public class MessageModel {
 
     @Override
     public String toString() {
+        Arrays.toString(new int[5]);
+        System out;
+        String.join(",", new ArrayList<>());
         return "MessageModel{" +
                 "messageClusterIdentifier='" + messageClusterIdentifier + '\'' +
                 ", isFriend='" + isFriend + '\'' +
